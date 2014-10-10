@@ -3,20 +3,10 @@ pretty = require 'pl.pretty'
 
 Phases = {}
 
-function Phases.convert(key)
-	if key == 'space' then
-		return ' '
-	elseif key == 'enter' then
-		return 'return'
-	else
-		return key
-	end
-end
-
 function Phases:HCrefresh(phase)
 	self.HC:clear()
 
-	if phase.shape then
+	if phase.shapes then
 		for k,v in pairs(phase.shapes) do
 			if v.shape == 'rectangle' then
 				phase.shapes[k] = self.HC:addRectangle(v.x, v.y, v.width, v.height)
@@ -35,22 +25,6 @@ function Phases:getPhase(id)
 end
 
 function Phases:update(dt)
-	local msg = nil
-	local data = nil
-
-	if self.current.kb_events then
-		for key, ft in pairs(self.current.kb_events) do
-			key = Phases.convert(key)
-
-			if love.keyboard.isDown(key) then
-				msg, data = ft(self.current)
-			end
-		end
-	end
-
-	if msg == 'next_phase' then
-		self.current = self:getPhase(data)
-	end
 end
 
 function Phases:require(files)
@@ -80,10 +54,7 @@ end
 
 function Phases:draw()
 	if self.current.shapes then
-			pretty.dump(self.current.shapes)
-		for k,v in pairs(self.current.shapes) do
-			v:draw('line')
-		end
+		self.current.shapes[self.current.position]:draw('line')
 	end
 
 	if Phases.current.images then

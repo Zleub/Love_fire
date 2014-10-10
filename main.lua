@@ -2,7 +2,33 @@ function love.load()
 	Phases = require 'Phases':init()
 	pretty = require 'pl.pretty'
 
-	print(pretty.write(Phases))
+	-- print(pretty.write(Phases))
+end
+
+function convert(key)
+	if key == 'space' then
+		return ' '
+	elseif key == 'enter' then
+		return 'return'
+	else
+		return key
+	end
+end
+
+function love.keypressed(key)
+	local msg = nil
+	local data = nil
+
+	for k,ft in pairs(Phases.current.kb_events) do
+		k = convert(k)
+		if key == k then
+			msg, data = ft(Phases.current)
+		end
+	end
+
+	if msg == 'next_phase' then
+		Phases.current = Phases:getPhase(data)
+	end
 end
 
 function love.update(dt)

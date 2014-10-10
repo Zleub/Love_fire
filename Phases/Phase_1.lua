@@ -24,5 +24,5 @@ return {
 	kb_events = {
 		space = next_phase,
 		enter = next_phase
-	}
+	},
 }
