@@ -15,28 +15,28 @@ function quit()
 end
 
 function keydown(currentPhase)
-	currentPhase.position = currentPhase.position + 1
-	if currentPhase.position > currentPhase.position_max then
-		currentPhase.position = 1
+	currentPhase.bt_position = currentPhase.bt_position + 1
+	if currentPhase.bt_position > currentPhase.bt_position_max then
+		currentPhase.bt_position = 1
 	end
 end
 
 function keyup(currentPhase)
-	currentPhase.position = currentPhase.position - 1
-	if currentPhase.position < 1 then
-		currentPhase.position = currentPhase.position_max
+	currentPhase.bt_position = currentPhase.bt_position - 1
+	if currentPhase.bt_position < 1 then
+		currentPhase.bt_position = currentPhase.bt_position_max
 	end
 end
 
 function validate(currentPhase)
-	currentPhase.bt_events[currentPhase.position]()
+	currentPhase.bt_events[currentPhase.bt_position]()
 end
 
 return {
 	id = 2,
 	name = 'Phase_2',
-	position = 1,
-	position_max = 3,
+	bt_position = 1,
+	bt_position_max = 3,
 	texts = {
 		{
 			string = 'New Game',

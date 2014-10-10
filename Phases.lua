@@ -54,7 +54,7 @@ end
 
 function Phases:draw()
 	if self.current.shapes then
-		self.current.shapes[self.current.position]:draw('line')
+		self.current.shapes[self.current.bt_position]:draw('line')
 	end
 
 	if Phases.current.images then
