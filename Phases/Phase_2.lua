@@ -28,6 +28,10 @@ function keyup(currentPhase)
 	end
 end
 
+function validate(currentPhase)
+	currentPhase.bt_events[currentPhase.position]()
+end
+
 return {
 	id = 2,
 	name = 'Phase_2',
@@ -73,9 +77,15 @@ return {
 			height = 75
 		}
 	},
+	bt_events = {
+		new_game,
+		load_game,
+		option
+	},
 	kb_events = {
 		escape = quit,
 		up = keyup,
-		down = keydown
+		down = keydown,
+		enter = validate
 	}
 }
