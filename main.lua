@@ -19,10 +19,12 @@ function love.keypressed(key)
 	local msg = nil
 	local data = nil
 
-	for k,ft in pairs(Phases.current.kb_events) do
-		k = convert(k)
-		if key == k then
-			msg, data = ft(Phases.current)
+	if Phases.current.kb_events then
+		for k,ft in pairs(Phases.current.kb_events) do
+			k = convert(k)
+			if key == k then
+				msg, data = ft(Phases.current)
+			end
 		end
 	end
 

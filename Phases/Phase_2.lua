@@ -1,5 +1,5 @@
 function new_game()
-	print('new_game')
+	return 'next_phase', 3
 end
 
 function load_game()
@@ -29,7 +29,7 @@ function keyup(currentPhase)
 end
 
 function validate(currentPhase)
-	currentPhase.bt_events[currentPhase.bt_position]()
+	return currentPhase.bt_events[currentPhase.bt_position]()
 end
 
 return {
