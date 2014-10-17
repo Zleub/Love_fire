@@ -5,7 +5,7 @@ function Phase:new_game()
 end
 
 function Phase:load_game()
-	print('load_game')
+	return 'next_phase', 4
 end
 
 function Phase:option()
@@ -37,7 +37,7 @@ end
 function Phase:init()
 	self.id = 2
 	self.name = 'Phase_2'
-	self.music = love.audio.newSource("Delivering-the-Goods.mp3")
+	self.music = love.audio.newSource("Musics/Delivering-the-Goods.mp3")
 	self.texts = {
 		{
 			string = 'New Game',

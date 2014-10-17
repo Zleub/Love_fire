@@ -15,15 +15,15 @@ function Phases:HCrefresh(new_phase)
 	end
 end
 
-function Phases:Musicrefresh()
-	if self.current.music and self.current.music:isPlaying() then
-		self.current.music:stop()
+function Phases:Musicrefresh(new_phase)
+	if new_phase.music and self.music then
+		self.music:stop()
 	end
 end
 
 function Phases:refresh(new_phase)
 	self:HCrefresh(new_phase)
-	self:Musicrefresh()
+	self:Musicrefresh(new_phase)
 end
 
 function Phases:getPhase(id)
@@ -71,6 +71,8 @@ function Phases:update(dt)
 end
 
 function Phases:draw()
+	love.graphics.print(self.current.name)
+
 	if self.current.shapes then
 		self.current.shapes[self.current.bt_position]:draw('line')
 	end
