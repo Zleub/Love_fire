@@ -1,5 +1,5 @@
 function next_phase(currentPhase)
-	return 'next_phase', currentPhase.id + 1
+	return 'next_phase', 2
 end
 
 return {
@@ -7,7 +7,6 @@ return {
 	name = 'Phase_1',
 	images = {
 		{
-			path = 'Images/logo.png',
 			image = love.graphics.newImage('Images/logo.png'),
 			scale = 0.2,
 			x = 200,

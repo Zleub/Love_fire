@@ -35,8 +35,7 @@ end
 return {
 	id = 2,
 	name = 'Phase_2',
-	bt_position = 1,
-	bt_position_max = 3,
+	music = love.audio.newSource("Delivering-the-Goods.mp3"),
 	texts = {
 		{
 			string = 'New Game',
@@ -54,6 +53,8 @@ return {
 			y = 500
 		}
 	},
+	bt_position = 1,
+	bt_position_max = 3,
 	shapes = { -- require position
 		{
 			shape = 'rectangle',

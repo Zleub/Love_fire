@@ -29,7 +29,7 @@ function love.keypressed(key)
 	end
 
 	if msg == 'next_phase' then
-		Phases.current = Phases:getPhase(data)
+		Phases:getPhase(data)
 	end
 end
 

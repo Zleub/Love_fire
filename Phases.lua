@@ -3,28 +3,52 @@ pretty = require 'pl.pretty'
 
 Phases = {}
 
-function Phases:HCrefresh(phase)
+function Phases:HCrefresh(new_phase)
 	self.HC:clear()
 
-	if phase.shapes then
-		for k,v in pairs(phase.shapes) do
+	if new_phase.shapes then
+		for k,v in pairs(new_phase.shapes) do
 			if v.shape == 'rectangle' then
-				phase.shapes[k] = self.HC:addRectangle(v.x, v.y, v.width, v.height)
+				new_phase.shapes[k] = self.HC:addRectangle(v.x, v.y, v.width, v.height)
 			end
 		end
 	end
 end
 
-function Phases:getPhase(id)
-	for key, phase in pairs(self.list) do
-		if phase.id == id then
-			self:HCrefresh(phase)
-			return phase
+function Phases:Musicrefresh()
+	if self.current.music and self.current.music:isPlaying() then
+		self.current.music:stop()
+	end
+end
+
+function Phases:Shaderrefresh(new_phase)
+	if new_phase.images then
+		print('new_phase image')
+		for k,v in pairs(new_phase.images) do
+			print(v.effect, new_phase.shaders[v.effect_name])
+			if v.effect and new_phase.shaders[v.effect_name] then
+				print('send')
+				v.effect:send("img", new_phase.shaders[v.effect_name])
+			end
 		end
 	end
 end
 
-function Phases:update(dt)
+function Phases:refresh(new_phase)
+	self:HCrefresh(new_phase)
+	self:Musicrefresh()
+	self:Shaderrefresh(new_phase)
+end
+
+function Phases:getPhase(id)
+	for key, phase in pairs(self.list) do
+		if phase.id == id then
+			if self.current then
+				self:refresh(phase)
+			end
+			self.current = phase
+		end
+	end
 end
 
 function Phases:require(files)
@@ -47,8 +71,15 @@ function Phases:init()
 		self.HC = Collider.new(150)
 
 		self:require(files)
-		self.current = self:getPhase(1)
+		self:getPhase(1)
 		return self
+	end
+end
+
+function Phases:update(dt)
+	if self.current.music then
+		self.current.music:play()
+		-- print(self.current.music:isLooping())
 	end
 end
 
@@ -57,13 +88,21 @@ function Phases:draw()
 		self.current.shapes[self.current.bt_position]:draw('line')
 	end
 
-	if Phases.current.images then
+	if self.current.images then
 		for k,v in pairs(Phases.current.images) do
+			if v.effect then
+				-- print('Set shader')
+				love.graphics.setShader(v.effect)
+			end
 			love.graphics.draw(v.image, v.x, v.y, 0, v.scale, v.scale)
+			if v.effect then
+				-- print('Unset shader')
+				love.graphics.setShader()
+			end
 		end
 	end
 
-	if Phases.current.texts then
+	if self.current.texts then
 		for k,v in pairs(Phases.current.texts) do
 			love.graphics.print(v.string, v.x, v.y, 0, v.scale, v.scale)
 		end
