@@ -1,64 +1,66 @@
-function quit()
+Phase = {}
+
+function Phase:quit()
 	love.event.quit()
 end
 
-function ft_left(currentPhase)
-	if currentPhase.images[1].effect_name == 'select' then
-		currentPhase.images[1].x = currentPhase.images[1].x + 128
-		currentPhase.images[1].effect_name = 'left'
-		currentPhase.images[1].effect:send(
+function Phase:ft_left()
+	if self.images[1].effect_name == 'center' then
+		self.images[1].x = self.images[1].x + 128
+		self.images[1].effect_name = 'left'
+		self.images[1].effect:send(
 			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
+			self.shaders[self.images[1].effect_name]
 		)
-	elseif currentPhase.images[1].effect_name == 'left' then
-		currentPhase.images[1].x = currentPhase.images[1].x - 256
-		currentPhase.images[1].effect_name = 'right'
-		currentPhase.images[1].effect:send(
+	elseif self.images[1].effect_name == 'left' then
+		self.images[1].x = self.images[1].x - 256
+		self.images[1].effect_name = 'right'
+		self.images[1].effect:send(
 			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
+			self.shaders[self.images[1].effect_name]
 		)
-	elseif currentPhase.images[1].effect_name == 'right' then
-		currentPhase.images[1].x = currentPhase.images[1].x + 128
-		currentPhase.images[1].effect_name = 'select'
-		currentPhase.images[1].effect:send(
+	elseif self.images[1].effect_name == 'right' then
+		self.images[1].x = self.images[1].x + 128
+		self.images[1].effect_name = 'center'
+		self.images[1].effect:send(
 			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
-		)
-	end
-end
-
-function ft_right(currentPhase)
-	if currentPhase.images[1].effect_name == 'select' then
-		currentPhase.images[1].x = currentPhase.images[1].x - 128
-		currentPhase.images[1].effect_name = 'right'
-		currentPhase.images[1].effect:send(
-			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
-		)
-	elseif currentPhase.images[1].effect_name == 'right' then
-		currentPhase.images[1].x = currentPhase.images[1].x + 256
-		currentPhase.images[1].effect_name = 'left'
-		currentPhase.images[1].effect:send(
-			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
-		)
-	elseif currentPhase.images[1].effect_name == 'left' then
-		currentPhase.images[1].x = currentPhase.images[1].x - 128
-		currentPhase.images[1].effect_name = 'select'
-		currentPhase.images[1].effect:send(
-			"img",
-			currentPhase.shaders[currentPhase.images[1].effect_name]
+			self.shaders[self.images[1].effect_name]
 		)
 	end
 end
 
-return {
-	id = 3,
-	name = 'New_Game',
-	images = {
+function Phase:ft_right()
+	if self.images[1].effect_name == 'center' then
+		self.images[1].x = self.images[1].x - 128
+		self.images[1].effect_name = 'right'
+		self.images[1].effect:send(
+			"img",
+			self.shaders[self.images[1].effect_name]
+		)
+	elseif self.images[1].effect_name == 'right' then
+		self.images[1].x = self.images[1].x + 256
+		self.images[1].effect_name = 'left'
+		self.images[1].effect:send(
+			"img",
+			self.shaders[self.images[1].effect_name]
+		)
+	elseif self.images[1].effect_name == 'left' then
+		self.images[1].x = self.images[1].x - 128
+		self.images[1].effect_name = 'center'
+		self.images[1].effect:send(
+			"img",
+			self.shaders[self.images[1].effect_name]
+		)
+	end
+end
+
+function Phase:init()
+	self.id = 3
+	self.name = 'New_Game'
+	self.images = {
 		{
 			image = love.graphics.newImage('Images/HeroSelection.png'),
-			effect_name = 'select',
+			effect_name = 'center',
 			effect = love.graphics.newShader [[
 				extern Image img;
 				vec4 effect(vec4 color,Image tex,vec2 tc,vec2 pc)
@@ -72,27 +74,31 @@ return {
 					number max_white   = 1;
 
 					if (white_level >= max_white)
-					{
 						return img_color;
-					}
-
-					img_color.a = 0;
-					return img_color;
+					else
+						{
+							img_color.a = 0;
+							return img_color;
+						}
 				}
 			]],
 			scale = 1,
 			x = 128,
 			y = 128
 		}
-	},
-	kb_events = {
-		escape = quit,
-		left = ft_left,
-		right = ft_right
-	},
-	shaders = {
+	}
+	self.kb_events = {
+		escape = self.quit,
+		left = self.ft_left,
+		right = self.ft_right
+	}
+	self.shaders = {
 		left = love.graphics.newImage('Images/HeroSelectionLeft.png'),
-		select = love.graphics.newImage('Images/HeroSelectionCenter.png'),
+		center = love.graphics.newImage('Images/HeroSelectionCenter.png'),
 		right = love.graphics.newImage('Images/HeroSelectionRight.png')
 	}
-}
+
+	self.images[1].effect:send("img", self.shaders[self.images[1].effect_name])
+end
+
+return Phase

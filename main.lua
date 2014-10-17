@@ -29,6 +29,7 @@ function love.keypressed(key)
 	end
 
 	if msg == 'next_phase' then
+		print('next_phase', data)
 		Phases:getPhase(data)
 	end
 end

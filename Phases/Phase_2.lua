@@ -1,42 +1,44 @@
-function new_game()
+Phase = {}
+
+function Phase:new_game()
 	return 'next_phase', 3
 end
 
-function load_game()
+function Phase:load_game()
 	print('load_game')
 end
 
-function option()
+function Phase:option()
 	print('option')
 end
 
-function quit()
+function Phase:quit()
 	love.event.quit()
 end
 
-function keydown(currentPhase)
-	currentPhase.bt_position = currentPhase.bt_position + 1
-	if currentPhase.bt_position > currentPhase.bt_position_max then
-		currentPhase.bt_position = 1
+function Phase:keydown()
+	self.bt_position = self.bt_position + 1
+	if self.bt_position > self.bt_position_max then
+		self.bt_position = 1
 	end
 end
 
-function keyup(currentPhase)
-	currentPhase.bt_position = currentPhase.bt_position - 1
-	if currentPhase.bt_position < 1 then
-		currentPhase.bt_position = currentPhase.bt_position_max
+function Phase:keyup()
+	self.bt_position = self.bt_position - 1
+	if self.bt_position < 1 then
+		self.bt_position = self.bt_position_max
 	end
 end
 
-function validate(currentPhase)
-	return currentPhase.bt_events[currentPhase.bt_position]()
+function Phase:validate()
+	return self.bt_events[self.bt_position]()
 end
 
-return {
-	id = 2,
-	name = 'Phase_2',
-	music = love.audio.newSource("Delivering-the-Goods.mp3"),
-	texts = {
+function Phase:init()
+	self.id = 2
+	self.name = 'Phase_2'
+	self.music = love.audio.newSource("Delivering-the-Goods.mp3")
+	self.texts = {
 		{
 			string = 'New Game',
 			x = 500,
@@ -52,10 +54,10 @@ return {
 			x = 500,
 			y = 500
 		}
-	},
-	bt_position = 1,
-	bt_position_max = 3,
-	shapes = { -- require position
+	}
+	self.bt_position = 1
+	self.bt_position_max = 3
+	self.shapes = { -- require position
 		{
 			shape = 'rectangle',
 			x = 500,
@@ -77,16 +79,18 @@ return {
 			width = 100,
 			height = 75
 		}
-	},
-	bt_events = {
-		new_game,
-		load_game,
-		option
-	},
-	kb_events = {
-		escape = quit,
-		up = keyup,
-		down = keydown,
-		enter = validate
 	}
-}
+	self.bt_events = {
+		self.new_game,
+		self.load_game,
+		self.option
+	}
+	self.kb_events = {
+		escape = self.quit,
+		up = self.keyup,
+		down = self.keydown,
+		enter = self.validate
+	}
+end
+
+return Phase

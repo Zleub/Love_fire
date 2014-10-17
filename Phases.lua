@@ -21,23 +21,9 @@ function Phases:Musicrefresh()
 	end
 end
 
-function Phases:Shaderrefresh(new_phase)
-	if new_phase.images then
-		print('new_phase image')
-		for k,v in pairs(new_phase.images) do
-			print(v.effect, new_phase.shaders[v.effect_name])
-			if v.effect and new_phase.shaders[v.effect_name] then
-				print('send')
-				v.effect:send("img", new_phase.shaders[v.effect_name])
-			end
-		end
-	end
-end
-
 function Phases:refresh(new_phase)
 	self:HCrefresh(new_phase)
 	self:Musicrefresh()
-	self:Shaderrefresh(new_phase)
 end
 
 function Phases:getPhase(id)
@@ -57,6 +43,7 @@ function Phases:require(files)
 	for k,v in pairs(files) do
 		tmp = string.sub(v, 1, -5)
 		self.list[tmp] = require ('Phases/'..tmp)
+		self.list[tmp]:init()
 	end
 end
 
