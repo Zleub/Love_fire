@@ -16,8 +16,8 @@ function Phases:HCrefresh(new_phase)
 end
 
 function Phases:Musicrefresh(new_phase)
-	if new_phase.music and self.music then
-		self.music:stop()
+	if new_phase.music and self.current.music then
+		self.current.music:stop()
 	end
 end
 

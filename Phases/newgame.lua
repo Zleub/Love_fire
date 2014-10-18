@@ -1,5 +1,9 @@
 Phase = {}
 
+function Phase:back()
+	return 'next_phase', 2
+end
+
 function Phase:keydown()
 	self.bt_position = self.bt_position + 1
 	if self.bt_position > self.bt_position_max then
@@ -14,33 +18,48 @@ function Phase:keyup()
 	end
 end
 
-function Phase:getsaves()
-	local state1 = love.filesystem.exists('save1')
-	local state2 = love.filesystem.exists('save2')
-	local state3 = love.filesystem.exists('save3')
+function Phase:validate()
+	if self.bt_position == 1 then
+		love.filesystem.remove( 'save1' )
+		love.filesystem.createDirectory( 'save1' )
+	elseif self.bt_position == 2 then
+		love.filesystem.remove( 'save2' )
+		love.filesystem.createDirectory( 'save2' )
+	else
+		love.filesystem.remove( 'save3' )
+		love.filesystem.createDirectory( 'save3' )
+	end
 
-	return state1, state2, state3
+	return 'next_phase', 5
+end
+
+function Phase:getsaves()
+	self.state1 = love.filesystem.exists('save1')
+	self.state2 = love.filesystem.exists('save2')
+	self.state3 = love.filesystem.exists('save3')
 end
 
 function Phase:init()
 	local message1
 	local message2
 	local message3
-	local state1, state2, state3 = self:getsaves()
 
-	if state1 == true then
+	self:getsaves()
+	print(self.state1, self.state2, self.state3)
+
+	if self.state1 == true then
 		message1 = 'A game is saved here'
 	else
 		message1 = 'Free slot'
 	end
 
-	if state2 == true then
+	if self.state2 == true then
 		message2 = 'A game is saved here'
 	else
 		message2 = 'Free slot'
 	end
 
-	if state3 == true then
+	if self.state3 == true then
 		message3 = 'A game is saved here'
 	else
 		message3 = 'Free slot'
@@ -93,7 +112,9 @@ function Phase:init()
 	}
 	self.kb_events = {
 		up = self.keyup,
-		down = self.keydown
+		down = self.keydown,
+		enter = self.validate,
+		backspace = self.back
 	}
 
 end
