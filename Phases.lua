@@ -26,7 +26,7 @@ function Phases:refresh(new_phase)
 	self:Musicrefresh(new_phase)
 end
 
-function Phases:getPhase(id, test de merde, again)
+function Phases:getPhase(id)
 	for key, phase in pairs(self.list) do
 		if phase.id == id then
 			if self.current then
