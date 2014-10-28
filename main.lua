@@ -42,9 +42,23 @@ function love.load()
 	button:SetPos(love.window.getWidth() - button.width)
 	button.OnClick = mainwin
 
+	scale = 1
+	testx = 0
+	testy = 0
+	movrate = 1000
 end
 
 function love.mousepressed(x, y, button)
+
+	if button == 'wu' then
+		scale = scale - 0.2
+	end
+	if button == 'wd' then
+		scale = scale + 0.2
+	end
+	if button == 'l' then
+		print('l')
+	end
 	loveframes.mousepressed(x, y, button)
 end
 
@@ -66,6 +80,8 @@ function love.textinput(text)
 end
 
 function love.update(dt)
+
+	-- LOVEFRAME KEEP IN UPDATE
 	if list then
 		list:SetSize(200, love.window.getHeight())
 	end
@@ -76,36 +92,22 @@ function love.update(dt)
 		frame:SetMaxWidth(love.window.getWidth())
 		frame:SetMaxHeight(love.window.getHeight())
 	end
+
+	-- MAP MOVING
+	if love.keyboard.isDown("down") or love.keyboard.isDown("s") then
+		testy = testy - dt * movrate
+	elseif love.keyboard.isDown("up") or love.keyboard.isDown("w") then
+		testy = testy + dt * movrate
+	elseif love.keyboard.isDown("right") or love.keyboard.isDown("d") then
+		testx = testx - dt * movrate
+	elseif love.keyboard.isDown("left") or love.keyboard.isDown("a") then
+		testx = testx + dt * movrate
+	end
+
 	loveframes.update(dt)
 end
 
-function draw_map(layer)
-	local i
-	local j
-	local k
-
-	local m = 0
-	local n = 0
-
-	k = 1
-	j = 0
-	while j < layer.height do
-		i = 1
-		m = 0
-		while i <= layer.width do
-			if layer.data[k] ~= 0 then
-				love.graphics.draw(tiledquads[0], tiledquads[ layer.data[k] ], m, n)
-			end
-			m = m + 128
-			i = i + 1
-			k = k + 1
-		end
-		n = n + 64
-		j = j + 1
-	end
-end
-
-function draw_isolayer(layer)
+function draw_isolayer(layer, offsetx, offsety)
 	local i
 	local j
 	local k
@@ -117,8 +119,8 @@ function draw_isolayer(layer)
 	j = 0
 	while j < layer.height do
 		i = 1
-		m = love.window.getWidth() / 2 - (tiled.tilesets[1].tilewidth / 2) * (j + 1)
-		n = 0 + (tiled.tilesets[1].tileheight / 2) * (j + 1)
+		m = love.window.getWidth() / 2 - (tiled.tilesets[1].tilewidth / 2) * (j + 1) + offsetx
+		n = 0 + (tiled.tilesets[1].tileheight / 2) * (j + 1) + offsety
 
 		while i <= layer.width do
 			if layer.data[k] ~= 0 then
@@ -135,10 +137,12 @@ end
 
 function love.draw()
 	love.graphics.print(love.timer.getFPS(), love.graphics.getWidth() - 20, love.graphics.getHeight() - 11)
+	-- love.graphics.scale(scale)
 	love.graphics.print(tiled.tilesets[1].tilewidth / 2)
 	for k,v in pairs(tiled.layers) do
-		draw_isolayer(tiled.layers[k])
+		draw_isolayer(tiled.layers[k], testx,testy)
 	end
+	-- love.graphics.scale(1)
 	loveframes.draw()
 	-- draw_isolayer(tiled.layers[1], 0, 0)
 	-- draw_isolayer(tiled.layers[2], 0, tiled.tilesets[1].tilewidth / 4)
