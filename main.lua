@@ -124,7 +124,7 @@ function draw_isolayer(layer, offsetx, offsety)
 
 		while i <= layer.width do
 			if layer.data[k] ~= 0 then
-				love.graphics.draw(tiledquads[0], tiledquads[ layer.data[k] ], m, n)
+				love.graphics.draw(tiledquads[0], tiledquads[ layer.data[k] ], m, n, 0)
 			end
 			m = m + tiled.tilesets[1].tilewidth / 2
 			n = n + tiled.tilesets[1].tileheight / 2
