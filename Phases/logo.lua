@@ -22,6 +22,11 @@ function Phase:init()
 			y = 500
 		}
 	}
+	self.texts = {
+		{ "text1", 0, 0 },
+		{ "text2", 10, 10},
+		{ "text3", 100, 100}
+}
 	self.kb_events = {
 		space = self.next_phase,
 		enter = self.next_phase

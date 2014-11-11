@@ -89,7 +89,8 @@ function Phase:init()
 		escape = self.quit,
 		up = self.keyup,
 		down = self.keydown,
-		enter = self.validate
+		enter = self.validate,
+		space = self.validate
 	}
 end
 
