@@ -18,8 +18,31 @@ Phase	-> images
 		-> keyboard
 			-> key: function
 		-> buttons
-			-> pos_min
+			-> pos_min: int (?)
+			-> pos_max: int (?)
+			-> pos: int
+			-> shapes
+				-> shape
+					->shape: string (WIP)
+					->x: int
+					->y: int
+					->width: int
+					->height: int
+		-> shapes
+			-> shape
+				->shape: string (WIP)
+				->x: int
+				->y: int
+				->width: int
+				->height: int
 ```
+array[42]
+array['quarantedeux']
+
+[0]: 'zero'
+[1]: 'un'
+['un']: 'deux'
+['deux']: 1
 
 ##External
 
