@@ -2,6 +2,25 @@
 
 A phase module for love framework
 
+```
+Phase	-> images
+			-> image
+				-> x: int
+				-> y: int
+				-> scale: int
+				-> img: love.image
+				-> effect: love.shader
+		-> texts
+			-> text
+				-> x: int
+				-> y: int
+				-> str: string
+		-> keyboard
+			-> key: function
+		-> buttons
+			-> pos_min
+```
+
 ##External
 
 `main.lua`
