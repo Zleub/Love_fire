@@ -23,18 +23,18 @@ Phase	-> images
 			-> pos: int
 			-> shapes
 				-> shape
-					->shape: string (WIP)
-					->x: int
-					->y: int
-					->width: int
-					->height: int
+					-> shape: string (WIP)
+					-> x: int
+					-> y: int
+					-> width: int
+					-> height: int
 		-> shapes
 			-> shape
-				->shape: string (WIP)
-				->x: int
-				->y: int
-				->width: int
-				->height: int
+				-> shape: string (WIP)
+				-> x: int
+				-> y: int
+				-> width: int
+				-> height: int
 ```
 array[42]
 array['quarantedeux']
